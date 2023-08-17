@@ -1,5 +1,10 @@
 This is a Switch Bot written in Python for mirroring files on the Internet to your Google Drive, Switch or to any rclone supported cloud.
 
+# DISCLAIMER
+> This source is made public only for educational purpose.
+ the owner doesn't take any guarantee of any illegal action related to this
+> this will be the property and responsibility of the users using it.
+
 # Features
 
 ### Overall
