@@ -131,7 +131,7 @@ class SwUploader:
         LOGGER.info(f"Leech Completed: {self.name}")
         await self.__listener.onUploadComplete(None, size, self.__corrupted, self.__total_files, _, self.name)
 
-    @retry(wait=wait_exponential(multiplier=2, min=4, max=8), stop=stop_after_attempt(3),
+    @retry(wait=wait_exponential(multiplier=2, min=4, max=8), stop=stop_after_attempt(1),
            retry=retry_if_exception_type(Exception))
     async def __upload_file(self, description, file):
         if self.__thumb is not None and not await aiopath.exists(self.__thumb):
@@ -165,7 +165,10 @@ class SwUploader:
         buttons = ButtonMaker()
         buttons.ubutton("Direct Download Link", self.__sent_msg.media_link)
         button = buttons.build_menu()
-        self.__sent_msg = await editMessage(self.__sent_msg, f"<copy>{file}</copy>\nMime Type: {mime_type}", button)
+        try:
+            self.__sent_msg = await editMessage(self.__sent_msg, f"<copy>{file}</copy>\nMime Type: {mime_type}", button)
+        except Exception as er:
+            print(er)
         if self.__thumb is None and thumb is not None and await aiopath.exists(thumb):
             await aioremove(thumb)
 
