@@ -138,7 +138,10 @@ AUTHORIZED_CHATS = environ.get('AUTHORIZED_CHATS', '')
 if len(AUTHORIZED_CHATS) != 0:
     aid = AUTHORIZED_CHATS.split()
     for id_ in aid:
-        user_data[int(id_.strip())] = {'is_auth': True}
+        try:
+            user_data[int(id_.strip())] = {'is_auth': True}
+        except Exception:
+            user_data[id_.strip()] = {"is_auth": True}
 
 SUDO_USERS = environ.get('SUDO_USERS', '')
 if len(SUDO_USERS) != 0:
