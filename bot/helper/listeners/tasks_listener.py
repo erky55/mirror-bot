@@ -333,8 +333,8 @@ class MirrorLeechListener:
         LOGGER.info(f'Task Done: {name}')
         if self.isLeech:
             msg += f'\n<b>Total Files:</b> {folders}'
-            if mime_type != 0:
-                msg += f'\n<b>Corrupted Files:</b> {files}'
+#            if mime_type != 0:
+#               msg += f'\n<b>Corrupted Files:</b> {files}'
             msg += f'\n<b>cc:</b> {self.tag}\n\n'
             await sendMessage(self.message, msg)
             if self.seed:
