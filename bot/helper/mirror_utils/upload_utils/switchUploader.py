@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import anitopy
 from logging import getLogger, ERROR
 from aiofiles.os import remove as aioremove, path as aiopath, rename as aiorename, makedirs
 from os import walk, path as ospath
@@ -153,7 +154,11 @@ class SwUploader:
         if self.__as_doc:
             msg.is_document = True
         mime_type = await sync_to_async(get_mime_type, self.__up_path)
-
+        file_info = anitopy.parse(self.__up_path)
+        file_name = file
+        if config_dict.get('REMOVE_CHECKSUM') and file_info.get("file_checksum"):
+            file_name = file_name.replace(f"[{file_info['file_checksum']}]", "")
+            description = description.replace(f"[{file_info['file_checksum']}]", "")
         media = MediaUploadRequest(path=self.__up_path,
                                     file_name=file,
                                     mime_type=mime_type,
