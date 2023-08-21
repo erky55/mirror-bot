@@ -171,7 +171,7 @@ class SwUploader:
         buttons.ubutton("Direct Download Link", self.__sent_msg.media_link)
         button = buttons.build_menu()
         try:
-            self.__sent_msg = await editMessage(self.__sent_msg, f"<copy>{file}</copy>\nMime Type: {mime_type}", button)
+            self.__sent_msg = await editMessage(self.__sent_msg, f"<copy>{file_name}</copy>\nMime Type: {mime_type}", button)
         except Exception as er:
             print(er)
         if self.__thumb is None and thumb is not None and await aiopath.exists(thumb):
