@@ -159,6 +159,8 @@ class SwUploader:
         if config_dict.get('REMOVE_CHECKSUM') and file_info.get("file_checksum"):
             file_name = file_name.replace(f"[{file_info['file_checksum']}]", "")
             description = description.replace(f"[{file_info['file_checksum']}]", "")
+        if not thumb and file.lower().endswith((".png", ".jpg", ".jpeg")):
+            thumb = file
         media = MediaUploadRequest(path=self.__up_path,
                                     file_name=file,
                                     mime_type=mime_type,
