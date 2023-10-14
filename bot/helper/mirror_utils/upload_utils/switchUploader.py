@@ -40,7 +40,7 @@ class SwUploader:
     async def __upload_progress(self, progress):
         if self.__is_cancelled:
             progress.client.cancel()
-        self.__processed_bytes += progress.current
+        self.__processed_bytes = progress.current
 
     async def __user_settings(self):
         self.__as_doc = self.__listener.user_dict.get(
