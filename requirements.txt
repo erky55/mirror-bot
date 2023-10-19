@@ -30,7 +30,7 @@ python-dotenv
 python-magic
 qbittorrent-api
 requests
-swibots
+swibots==1.3.42b0
 telegraph
 tenacity
 uvloop
