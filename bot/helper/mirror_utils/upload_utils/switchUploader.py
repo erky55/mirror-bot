@@ -167,7 +167,7 @@ class SwUploader:
                                     mime_type=mime_type,
                                     description=description,
                                     thumbnail=thumb,
-                                    callback=self.__upload_progress)
+                                    callback=self.__upload_progress, task_count=20, part_size=20*  1024 * 1024)
 
         self.__sent_msg = await self.__sent_msg.reply(msg, media)
         buttons = ButtonMaker()
