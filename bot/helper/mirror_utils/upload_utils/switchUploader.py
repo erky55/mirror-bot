@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import anitopy
+import anitopy, traceback
 from logging import getLogger, ERROR
 from aiofiles.os import remove as aioremove, path as aiopath, rename as aiorename, makedirs
 from os import walk, path as ospath
@@ -18,7 +18,7 @@ from bot.helper.switch_helper.button_build import ButtonMaker
 from bot.helper.switch_helper.message_utils import editMessage
 
 LOGGER = getLogger(__name__)
-getLogger("swibots.app").setLevel(ERROR)
+# getLogger("swibots.app").setLevel(ERROR)
 
 
 class SwUploader:
@@ -40,7 +40,7 @@ class SwUploader:
     async def __upload_progress(self, progress):
         if self.__is_cancelled:
             progress.client.cancel()
-        self.__processed_bytes = progress.current
+        self.__processed_bytes += progress.current
 
     async def __user_settings(self):
         self.__as_doc = self.__listener.user_dict.get(
@@ -104,6 +104,7 @@ class SwUploader:
                     if self.__is_cancelled:
                         return
                 except Exception as err:
+                    traceback.print_exc()
                     if isinstance(err, RetryError):
                         LOGGER.info(
                             f"Total Attempts: {err.last_attempt.attempt_number}")
@@ -127,7 +128,7 @@ class SwUploader:
             await self.__listener.onUploadError("No files to upload. In case you have filled EXTENSION_FILTER, then check if all files have those extensions or not.")
             return
         if self.__total_files <= self.__corrupted:
-            # await self.__listener.onUploadError('Files Corrupted or unable to upload. Check logs!')
+            LOGGER.error('Files Corrupted or unable to upload')
             return
         LOGGER.info(f"Leech Completed: {self.name}")
         await self.__listener.onUploadComplete(None, size, self.__corrupted, self.__total_files, _, self.name)
